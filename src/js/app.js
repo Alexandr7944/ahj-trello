@@ -8,46 +8,46 @@ const listEl = document.querySelectorAll(".list");
 const list = {
   todo: new ItemTrello(document.querySelector(".list__todo")),
   progress: new ItemTrello(document.querySelector(".list__progress")),
-  done: new ItemTrello(document.querySelector(".list__done"))
-}
+  done: new ItemTrello(document.querySelector(".list__done")),
+};
 
 for (let row in data) {
   data[row].forEach((item) => list[row].addItem(item, data));
 }
 
-const container = document.querySelector('.container');
+const container = document.querySelector(".container");
 let actualElement;
 
 const onMouseOver = (e) => {
-  actualElement.style.top = e.clientY + 'px';
-  actualElement.style.left = e.clientX + 'px';
-}
+  actualElement.style.top = e.clientY + "px";
+  actualElement.style.left = e.clientX + "px";
+};
 
 const onMouseUp = (e) => {
-  const mouseUpItemWrapper = e.target.closest('.item-wrapper');
-  const mouseUpItem = e.target.closest('.item');
+  const mouseUpItemWrapper = e.target.closest(".item-wrapper");
+  const mouseUpItem = e.target.closest(".item");
   if (mouseUpItemWrapper && mouseUpItem) {
     mouseUpItemWrapper.prepend(actualElement);
     mouseUpItemWrapper.insertBefore(actualElement, mouseUpItem);
   }
 
-  actualElement.classList.remove('dragged');
+  actualElement.classList.remove("dragged");
   actualElement = undefined;
 
-  document.documentElement.removeEventListener('mouseup', onMouseUp);
-  document.documentElement.removeEventListener('mouseover', onMouseOver);
-}
+  document.documentElement.removeEventListener("mouseup", onMouseUp);
+  document.documentElement.removeEventListener("mouseover", onMouseOver);
+};
 
-container.addEventListener('mousedown', e => {
+container.addEventListener("mousedown", (e) => {
   e.preventDefault();
-  actualElement = e.target.closest('.item');
+  actualElement = e.target.closest(".item");
   if (!actualElement || e.target.className.includes("remove-btn")) return;
 
-  actualElement.classList.add('dragged');
+  actualElement.classList.add("dragged");
 
-  document.documentElement.addEventListener('mouseup', onMouseUp);
-  document.documentElement.addEventListener('mouseover', onMouseOver);
-})
+  document.documentElement.addEventListener("mouseup", onMouseUp);
+  document.documentElement.addEventListener("mouseover", onMouseOver);
+});
 
 listEl.forEach((item) => {
   const addBtn = item.querySelector(".add-btn");
@@ -60,12 +60,12 @@ listEl.forEach((item) => {
     textContainer.children[0].focus();
 
     addCard.addEventListener("click", () => {
-      handlerAddCard(textContainer, item, addBtn)
+      handlerAddCard(textContainer, item, addBtn);
     });
 
     textContainer.children[0].addEventListener("keydown", (e) => {
-      if (e.key !== 'Enter') return;
-      handlerAddCard(textContainer, item, addBtn)
+      if (e.key !== "Enter") return;
+      handlerAddCard(textContainer, item, addBtn);
     });
 
     removeCard.addEventListener("click", () =>
@@ -82,7 +82,7 @@ function handlerAddCard(textContainer, item, addBtn) {
     if (!item.className.includes(keys)) return;
     const itemObj = {
       id: Date.now(),
-      content: text
+      content: text,
     };
     list[keys].addItem(itemObj);
     data[keys].push(itemObj);
@@ -93,9 +93,7 @@ function handlerAddCard(textContainer, item, addBtn) {
 
 export function handlerRemoveItem(itemEl, itemObj) {
   for (const keys in data) {
-    data[keys] = data[keys].filter(
-      (item) => item.id !== itemObj.id
-    );
+    data[keys] = data[keys].filter((item) => item.id !== itemObj.id);
   }
   DataStor.changeData(data);
   itemEl.remove();

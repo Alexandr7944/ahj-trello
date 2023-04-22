@@ -7,12 +7,11 @@ class DataStor {
     }
     sessionStorage.setItem("trello", JSON.stringify(dataJSON));
     return dataJSON;
-  }
+  };
 
   static changeData(data) {
     sessionStorage.setItem("trello", JSON.stringify(data));
   }
 }
-
 
 export default DataStor;
