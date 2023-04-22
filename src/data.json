@@ -1,0 +1,23 @@
+{
+  "todo": [
+    {
+      "id": 1,
+      "content": "Welcome to Trello!"
+    },
+    {
+      "id": 2,
+      "content": "Quaerat minus officiis eaque itaque, in fuga!"
+    },
+    {
+      "id": 3,
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat minus amet atque eveniet nobis aut deleniti soluta, possimus corrupti dolor."
+    }
+  ],
+  "progress": [
+    {
+      "id": 4,
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    }    
+  ],
+  "done": []
+}
