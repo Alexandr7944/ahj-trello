@@ -1,6 +1,7 @@
 import EnterText from "./EnterText";
 import ItemTrello from "./ItemTrello";
 import DataStor from "./DataStor";
+import Controller from "./Controller";
 
 const data = DataStor.getData();
 
@@ -14,40 +15,6 @@ const list = {
 for (let row in data) {
   data[row].forEach((item) => list[row].addItem(item, data));
 }
-
-const container = document.querySelector(".container");
-let actualElement;
-
-const onMouseOver = (e) => {
-  actualElement.style.top = e.clientY + "px";
-  actualElement.style.left = e.clientX + "px";
-};
-
-const onMouseUp = (e) => {
-  const mouseUpItemWrapper = e.target.closest(".item-wrapper");
-  const mouseUpItem = e.target.closest(".item");
-  if (mouseUpItemWrapper && mouseUpItem) {
-    mouseUpItemWrapper.prepend(actualElement);
-    mouseUpItemWrapper.insertBefore(actualElement, mouseUpItem);
-  }
-
-  actualElement.classList.remove("dragged");
-  actualElement = undefined;
-
-  document.documentElement.removeEventListener("mouseup", onMouseUp);
-  document.documentElement.removeEventListener("mouseover", onMouseOver);
-};
-
-container.addEventListener("mousedown", (e) => {
-  e.preventDefault();
-  actualElement = e.target.closest(".item");
-  if (!actualElement || e.target.className.includes("remove-btn")) return;
-
-  actualElement.classList.add("dragged");
-
-  document.documentElement.addEventListener("mouseup", onMouseUp);
-  document.documentElement.addEventListener("mouseover", onMouseOver);
-});
 
 listEl.forEach((item) => {
   const addBtn = item.querySelector(".add-btn");
@@ -98,3 +65,9 @@ export function handlerRemoveItem(itemEl, itemObj) {
   DataStor.changeData(data);
   itemEl.remove();
 }
+
+const controller = new Controller(document.querySelector(".container"));
+
+document.body.addEventListener("mousedown", controller.onMouseDown);
+document.body.addEventListener("mouseup", controller.onMouseUp);
+document.body.addEventListener("mousemove", controller.onMouseMove);
